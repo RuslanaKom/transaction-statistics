@@ -1,0 +1,16 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /
+
+transaction:
+  age: ${TRANSACTION_AGE_IN_SECONDS:60}
+
+bigdecimal:
+  scale: ${BIGDECIMAL_SCALE:2}
+
+cache:
+  expiration:
+    seconds: ${CACHE_EXPIRATION_IN_SECONDS:60}
+  cleanup:
+    seconds: ${CACHE_CLEANUP_IN_SECONDS:1}

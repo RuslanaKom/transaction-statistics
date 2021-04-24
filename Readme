@@ -1,0 +1,13 @@
+Implementation notes:
+
+1) Application runs on port 8092.
+
+2) Transactions storage is implemented basing on assumption that timestamp is not a unique transaction identifier
+    and thus two transactions with same timestamp can exist.
+
+3) From the task description it was assumed that the transaction expiration should be calculated basing on it's timestamp received in in request body,
+    so the primary cache implementation is a TimestampBasedCache.
+    Though it is also a possible case that the transaction expiration should be evaluated based on a time it was written into cache,
+    so alternative implementation is also provided in WriteTimeBasedCache.
+
+4) Some parameters like transaction expiration time limit and bigdecimal scale used were made configurable, so if needed can be supplied as environment variables.
