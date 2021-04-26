@@ -2,7 +2,6 @@ package com.n26.challenge.statistics.controller;
 
 import com.n26.challenge.statistics.cache.TransactionCache;
 import com.n26.challenge.statistics.dto.TransactionDto;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 import static org.springframework.http.ResponseEntity.noContent;
-import static org.springframework.http.ResponseEntity.ok;
 
 @Validated
 @RestController
@@ -27,7 +25,6 @@ public class TransactionController {
     public TransactionController(TransactionCache transactionCache) {
         this.transactionCache = transactionCache;
     }
-
 
     @PostMapping
     public ResponseEntity createTransaction(@RequestBody @Valid TransactionDto transactionDto) {
