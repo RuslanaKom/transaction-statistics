@@ -68,7 +68,7 @@ public class StatisticsServiceTest {
     }
 
     private List<BigDecimal> createValues() {
-        return Arrays.asList(BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN);
+        return Arrays.asList(BigDecimal.TEN, BigDecimal.ZERO, BigDecimal.ONE);
     }
 
 }

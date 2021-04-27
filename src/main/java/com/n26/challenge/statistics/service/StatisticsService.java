@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -32,7 +32,8 @@ public class StatisticsService {
         if (values.size() < 1) {
             return statisticsDto;
         }
-        Collections.sort(values);
+        //Collections.sort(values);
+        values = sortList(values);
         int count = values.size();
         BigDecimal sumNotScaled = getSumNoScale(values);
         statisticsDto.setCount(count);
@@ -65,4 +66,48 @@ public class StatisticsService {
         return bigDecimal.setScale(defaultScale, RoundingMode.HALF_UP);
     }
 
+    private List<BigDecimal> sortList(List<BigDecimal> list) {
+        BigDecimal[] array = list.toArray(BigDecimal[]::new);
+        mergeSort(array, array.length);
+        return Arrays.asList(array);
+    }
+
+    public static void mergeSort(BigDecimal[] a, int n) {
+        if (n < 2) {
+            return;
+        }
+        int mid = n / 2;
+        BigDecimal[] left = new BigDecimal[mid];
+        BigDecimal[] right = new BigDecimal[n - mid];
+
+        for (int i = 0; i < mid; i++) {
+            left[i] = a[i];
+        }
+        for (int i = mid; i < n; i++) {
+            right[i - mid] = a[i];
+        }
+        mergeSort(left, left.length);
+        mergeSort(right, right.length);
+
+        merge(a, left, right, left.length, right.length);
+    }
+
+    public static void merge(
+            BigDecimal[] a, BigDecimal[] left, BigDecimal[] right, int leftLength, int rightLength) {
+
+        int i = 0, j = 0, k = 0;
+        while (i < leftLength && j < rightLength) {
+            if (left[i].compareTo(right[j]) == -1) {
+                a[k++] = left[i++];
+            } else {
+                a[k++] = right[j++];
+            }
+        }
+        while (i < leftLength) {
+            a[k++] = left[i++];
+        }
+        while (j < rightLength) {
+            a[k++] = right[j++];
+        }
+    }
 }

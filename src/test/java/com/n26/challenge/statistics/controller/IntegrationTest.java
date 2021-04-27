@@ -30,7 +30,8 @@ public class IntegrationTest {
     private MockMvc mvc;
 
     @Test
-    public void testEmptyStatistics() throws Exception {
+    public void testStatistics() throws Exception {
+        //test empty transactions
         mvc.perform(get("/statistics")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -41,10 +42,7 @@ public class IntegrationTest {
                 .andExpect(jsonPath("$.min").value(BigDecimal.ZERO))
                 .andExpect(jsonPath("$.max").value(BigDecimal.ZERO))
                 .andExpect(jsonPath("$.count").value(0));
-    }
 
-    @Test
-    public void testStatistics() throws Exception {
         // save transactions
         for (int i = 0; i < 3; i++) {
             mvc.perform(post("/transactions")
@@ -64,10 +62,11 @@ public class IntegrationTest {
                 .andExpect(jsonPath("$.max").value(BigDecimal.valueOf(10.0)))
                 .andExpect(jsonPath("$.count").value(3));
 
-        // clear stransactions
+        // clear transactions
         mvc.perform(delete("/transactions")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+
         // check cleared
         mvc.perform(get("/statistics")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -85,8 +84,7 @@ public class IntegrationTest {
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setAmount(BigDecimal.TEN);
         transactionDto.setTimestamp(LocalDateTime.now());
-        String str = transactionDto.toString();
-        return str;
+        return transactionDto.toString();
     }
 
 }
